@@ -4,6 +4,7 @@
   "private": "true",
   "scripts": {
     "clasp": "./node_modules/.bin/clasp",
+    "fix": "biome check --write",
     "exec:shibuya-tennis": "clasp run --project ./packages/shibuya-tennis/.clasp.json",
     "prebuild": "pnpm run /prebuild:.*/",
     "prebuild:shibuya-tennis": "ln -sf ../../../appsscript.json packages/shibuya-tennis/dist/appsscript.json",
@@ -15,6 +16,7 @@
     "push:shibuya-tennis": "clasp --project ./packages/shibuya-tennis/.clasp.json push"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
     "@google/clasp": "^2.4.2",
     "@tsconfig/strictest": "^2.0.5",
     "@types/google-apps-script": "^1.0.84",

@@ -1,27 +1,27 @@
-
-
 function sendPostRequest(): void {
-  const url = 'https://www.yoyaku.city.shibuya.tokyo.jp/api/reservations/facilities/room_areas/reservable_frames';
+  const url =
+    "https://www.yoyaku.city.shibuya.tokyo.jp/api/reservations/facilities/room_areas/reservable_frames";
   const payload = {
-    "use_type_code": "150080",
-    "facility_id": 1004,
-    "use_month": getUseMonth(),
-    "use_date": "",
-    "start_time": "",
-    "end_time": ""
+    use_type_code: "150080",
+    facility_id: 1004,
+    use_month: getUseMonth(),
+    use_date: "",
+    start_time: "",
+    end_time: "",
   };
 
   const headers = {
     "Content-Type": "application/json",
     "X-Xsrf-Token": "342901d2-1623-4a27-9516-c8c1eec2f9a9",
-    "Cookie": "XSRF-TOKEN=342901d2-1623-4a27-9516-c8c1eec2f9a9; AWSALB=zGaN6tyqEp+7CsdA4E99gBpX0Y+eAgymEGpPO3kskPwy3kwAoEuuyFMqJeBCeIJqn3TwKq5MdgHc0yUlFdDC1ob0WcWUTDuBqQw+/HqzCBlFywC04Rd2KqguVPtl; AWSALBCORS=zGaN6tyqEp+7CsdA4E99gBpX0Y+eAgymEGpPO3kskPwy3kwAoEuuyFMqJeBCeIJqn3TwKq5MdgHc0yUlFdDC1ob0WcWUTDuBqQw+/HqzCBlFywC04Rd2KqguVPtl"
+    Cookie:
+      "XSRF-TOKEN=342901d2-1623-4a27-9516-c8c1eec2f9a9; AWSALB=zGaN6tyqEp+7CsdA4E99gBpX0Y+eAgymEGpPO3kskPwy3kwAoEuuyFMqJeBCeIJqn3TwKq5MdgHc0yUlFdDC1ob0WcWUTDuBqQw+/HqzCBlFywC04Rd2KqguVPtl; AWSALBCORS=zGaN6tyqEp+7CsdA4E99gBpX0Y+eAgymEGpPO3kskPwy3kwAoEuuyFMqJeBCeIJqn3TwKq5MdgHc0yUlFdDC1ob0WcWUTDuBqQw+/HqzCBlFywC04Rd2KqguVPtl",
   };
 
   const options: GoogleAppsScript.URL_Fetch.URLFetchRequestOptions = {
-    "method": "post",
-    "headers": headers,
-    "payload": JSON.stringify(payload),
-    "muteHttpExceptions": true
+    method: "post",
+    headers: headers,
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true,
   };
 
   try {
@@ -58,7 +58,7 @@ function getUseMonth(): string {
   const month = nextWeekend.getMonth() + 1;
   const year = nextWeekend.getFullYear();
 
-  return `${year}/${month < 10 ? '0' : ''}${month}`;
+  return `${year}/${month < 10 ? "0" : ""}${month}`;
 }
 
 function processResponse(responseData: any): void {
@@ -67,10 +67,11 @@ function processResponse(responseData: any): void {
     const reservableFrames = content.reservable_frames;
 
     reservableFrames.forEach((frame: any) => {
-      Logger.log(`Start Time: ${frame.start_time}, End Time: ${frame.end_time}, Vacancy: ${frame.vacancy_amount}, Usage Fee: ${frame.usage_fee}`);
+      Logger.log(
+        `Start Time: ${frame.start_time}, End Time: ${frame.end_time}, Vacancy: ${frame.vacancy_amount}, Usage Fee: ${frame.usage_fee}`,
+      );
     });
   } else {
     Logger.log("No content found in the response.");
   }
 }
-
