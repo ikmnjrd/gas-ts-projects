@@ -1,0 +1,26 @@
+{
+  "name": "gas-projects",
+  "version": "1.0.0",
+  "private": "true",
+  "scripts": {
+    "clasp": "./node_modules/.bin/clasp",
+    "exec:shibuya-tennis": "clasp run --project ./packages/shibuya-tennis/.clasp.json",
+    "prebuild": "pnpm run /prebuild:.*/",
+    "prebuild:shibuya-tennis": "ln -sf ../../../appsscript.json packages/shibuya-tennis/dist/appsscript.json",
+    "build": "pnpm run /build:.*/",
+    "build:shibuya-tennis": "tsc -p ./packages/shibuya-tennis/tsconfig.shibuya-tennis.json",
+    "watch": "pnpm run /watch:.*/",
+    "watch:shibuya-tennis": "tsc -w  -p ../packages/shibuya-tennis/tsconfig.shibuya-tennis.json",
+    "push": "pnpm run /push:.*/",
+    "push:shibuya-tennis": "clasp --project ./packages/shibuya-tennis/.clasp.json push"
+  },
+  "devDependencies": {
+    "@google/clasp": "^2.4.2",
+    "@tsconfig/strictest": "^2.0.5",
+    "@types/google-apps-script": "^1.0.84",
+    "typescript": "^5.6.3"
+  },
+  "volta": {
+    "node": "22.10.0"
+  }
+}
