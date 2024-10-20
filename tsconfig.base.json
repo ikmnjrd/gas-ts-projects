@@ -6,12 +6,10 @@
     "strict": true,
     "strictNullChecks": true,
     "esModuleInterop": true,
+    "isolatedModules": true,
     "skipLibCheck": true,
     "rootDir": "./src",
-    "outDir": "./dist",
+    "outDir": "./dist"
   },
-  "include": [
-    "./src/**/*.ts"
-  ]
+  "include": ["./src/**/*.ts"]
 }
-

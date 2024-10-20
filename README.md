@@ -14,3 +14,4 @@
 
 ### This repository can't
 - run local script
+- do watch mode

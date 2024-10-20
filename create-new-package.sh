@@ -9,6 +9,7 @@ fi
 PACKAGE_NAME="$1"
 PACKAGE_DIR="packages"
 PACKAGE_PATH="./"$PACKAGE_DIR"/"$PACKAGE_NAME""
+ENTRY_FILENAME="main"
 
 
 # package.json ファイルが存在するか確認
@@ -18,7 +19,7 @@ if [ ! -f ./package.json ]; then
 fi
 
 # ./package.json にスクリプトを追加
-jq --arg package_name "$PACKAGE_NAME" \
+jq --arg package_name "$PACKAGE_NAME" --arg entry_filename "$ENTRY_FILE" \
   'def insert_after_key(target_key; new_entry):
     to_entries as $entries |
     ($entries | map(.key) | index(target_key) + 1) as $idx |
@@ -27,9 +28,8 @@ jq --arg package_name "$PACKAGE_NAME" \
 
   .scripts |= (
     . | insert_after_key("prebuild"; {key: "prebuild:\($package_name)", value: "ln -sf ../../../appsscript.json packages/\($package_name)/dist/appsscript.json"}) |
-      insert_after_key("watch"; {key: "watch:\($package_name)", value: "tsc -w -p ./packages/\($package_name)/tsconfig.\($package_name).json"}) |
       insert_after_key("push"; {key: "push:\($package_name)", value: "clasp --project ./packages/\($package_name)/.clasp.json push"}) |
-      insert_after_key("build"; {key: "build:\($package_name)", value: "clasp --project ./packages/\($package_name)/.clasp.json push"})
+      insert_after_key("build"; {key: "build:\($package_name)", value: "node ./build.js  ./packages/\($package_name)/src/\($entry_filename).ts  ./packages/\($package_name)/dist/\($entry_filename).js"})
   )' ./package.json > tmp.$$.json && mv tmp.$$.json ./package.json
 
 # 指定されたパッケージ名のディレクトリを作成
@@ -40,7 +40,14 @@ cd "$PACKAGE_PATH" || exit
 
 # echo "{}" > package.json
 mkdir -p src
-touch src/index.ts
+touch src/"$ENTRY_FILENAME".ts
+echo "function main(): void {
+  Logger.log('Hello, World!');
+}
+
+// @ts-expect-error
+global.main = main;
+"  >  src/"$ENTRY_FILENAME".ts
 mkdir -p dist
 
 
