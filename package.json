@@ -9,7 +9,7 @@
     "prebuild": "pnpm run /prebuild:.*/",
     "prebuild:shibuya-tennis": "ln -sf ../../../appsscript.json packages/shibuya-tennis/dist/appsscript.json",
     "build": "pnpm run /build:.*/",
-    "build:shibuya-tennis": "node ./build.js  ./packages/shibuya-tennis/src/main.ts  ./packages/shibuya-tennis/dist/main.js",
+    "build:shibuya-tennis": "node ./build.js  ./packages/shibuya-tennis/src/main.ts  ./packages/shibuya-tennis/dist/main.js ./packages/shibuya-tennis/tsconfig.shibuya-tennis.json",
     "push": "pnpm run /push:.*/",
     "push:shibuya-tennis": "clasp --project ./packages/shibuya-tennis/.clasp.json push"
   },

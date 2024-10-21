@@ -1,7 +1,7 @@
 {
   "extends": "@tsconfig/strictest",
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "ES2015", // ESNextだとClassのあたりでclasp push時にエラーが出る
     "module": "ESNext",
     "strict": true,
     "strictNullChecks": true,
