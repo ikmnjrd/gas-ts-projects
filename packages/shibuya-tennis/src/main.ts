@@ -22,8 +22,13 @@ function main(): void {
   }, [] as IContentItem[])
 
   const ress = contentItems.map((item) => sendPostRequest(month, item.use_date))
+
   // 通知する
   console.log({ ress })
+  const email = PropertiesService.getScriptProperties().getProperty("EMAIL")
+  if (!email) return
+
+  GmailApp.sendEmail(email, "予約可能な時間帯があります", JSON.stringify(ress))
 }
 
 // GASから参照したい変数はglobalオブジェクトに渡してあげる必要がある
