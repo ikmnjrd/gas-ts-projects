@@ -7,7 +7,7 @@ if [ -z "$1" ]; then
 fi
 
 PACKAGE_NAME="$1"
-PACKAGE_DIR="packages"
+PACKAGE_DIR="projects"
 PACKAGE_PATH="./"$PACKAGE_DIR"/"$PACKAGE_NAME""
 ENTRY_FILENAME="main"
 
@@ -27,9 +27,9 @@ jq --arg package_name "$PACKAGE_NAME" --arg entry_filename "$ENTRY_FILE" \
     from_entries;
 
   .scripts |= (
-    . | insert_after_key("prebuild"; {key: "prebuild:\($package_name)", value: "ln -sf ../../../appsscript.json packages/\($package_name)/dist/appsscript.json"}) |
-      insert_after_key("push"; {key: "push:\($package_name)", value: "clasp --project ./packages/\($package_name)/.clasp.json push"}) |
-      insert_after_key("build"; {key: "build:\($package_name)", value: "node ./build.js  ./packages/\($package_name)/src/\($entry_filename).ts  ./packages/\($package_name)/dist/\($entry_filename).js ./packages/\($package_name)/tsconfig.\($package_name).json"})
+    . | insert_after_key("prebuild"; {key: "prebuild:\($package_name)", value: "ln -sf ../../../appsscript.json projects/\($package_name)/dist/appsscript.json"}) |
+      insert_after_key("push"; {key: "push:\($package_name)", value: "clasp --project ./projects/\($package_name)/.clasp.json push"}) |
+      insert_after_key("build"; {key: "build:\($package_name)", value: "node ./build.js  ./projects/\($package_name)/src/\($entry_filename).ts  ./projects/\($package_name)/dist/\($entry_filename).js ./projects/\($package_name)/tsconfig.\($package_name).json"})
   )' ./package.json > tmp.$$.json && mv tmp.$$.json ./package.json
 
 # 指定されたパッケージ名のディレクトリを作成

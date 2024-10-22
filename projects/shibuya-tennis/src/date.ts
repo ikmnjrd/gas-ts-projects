@@ -1,5 +1,4 @@
 import * as HolidayJp from "@holiday-jp/holiday_jp"
-import holiday_jp from "../dist/main"
 
 export class DateValue {
   public year: number
