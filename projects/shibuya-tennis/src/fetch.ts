@@ -66,6 +66,7 @@ export function sendPostRequest(useMonth: string, useDate?: string): IResponse {
 
     if (responseCode === 200) {
       console.log("Request was successful.")
+      console.log("res content", responseData?.content)
       return responseData
     }
     console.log(`Request failed with status: ${responseCode}`)

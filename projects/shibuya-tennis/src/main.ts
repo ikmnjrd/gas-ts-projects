@@ -23,8 +23,11 @@ function main(): void {
 
   const ress = contentItems.map((item) => sendPostRequest(month, item.use_date))
 
+  if (ress.length === 0) {
+    console.log("予約可能な時間帯はありませんでした")
+    return
+  }
   // 通知する
-  console.log({ ress })
   const email = PropertiesService.getScriptProperties().getProperty("EMAIL")
   if (!email) return
 

@@ -11,7 +11,6 @@ export class DateValue {
    */
   constructor(dateString: string) {
     const parts = dateString.split("/")
-    console.log({ parts })
 
     if ([2, 3].includes(parts.length) === false) {
       throw new Error(
@@ -111,7 +110,6 @@ export function getWeekends(dateValue: DateValue): DateValue[] {
 
     if (dayOfWeek === 0 || dayOfWeek === 6) {
       const formattedDate = DateValue.jsDateToDateValueConstructor(date)
-      console.log({ formattedDate })
       days.push(new DateValue(formattedDate))
     }
   }
@@ -123,7 +121,7 @@ export function getHolidays(target: DateValue): DateValue[] {
   const weekends = getWeekends(target)
   const nationalHolidays = getNationalHolidays(target)
   const holydays = mergeAndSortDateValues(weekends, nationalHolidays)
-  console.log({ holydays })
+
   return holydays
 }
 
