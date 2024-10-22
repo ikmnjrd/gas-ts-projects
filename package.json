@@ -5,7 +5,6 @@
   "scripts": {
     "clasp": "./node_modules/.bin/clasp",
     "fix": "biome check --write",
-    "exec:shibuya-tennis": "clasp run --project ./projects/shibuya-tennis/.clasp.json",
     "prebuild": "pnpm run /prebuild:.*/",
     "prebuild:shibuya-tennis": "ln -sf ../../../appsscript.json projects/shibuya-tennis/dist/appsscript.json",
     "build": "pnpm run /build:.*/",
