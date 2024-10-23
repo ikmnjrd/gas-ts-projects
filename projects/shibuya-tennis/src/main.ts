@@ -1,39 +1,28 @@
-import { DateValue, getHolidays, getUseMonth } from "./date"
-import { type IContentItem, sendPostRequest } from "./fetch"
+import dayjs from "dayjs"
+import { surveyAt } from "./fetch"
 
 function main(): void {
-  const month = getUseMonth()
-  console.log({ month })
-  const firstRes = sendPostRequest(month)
+  const thisMonth = dayjs().format("YYYY/MM")
+  const nextMonth = dayjs().add(1, "month").format("YYYY/MM")
+  const thisMonthRes = surveyAt(thisMonth)
+  const nextMonthRes = surveyAt(nextMonth)
 
-  const dateValue = new DateValue(month)
-  const holidays = getHolidays(dateValue)
-  console.log({ holidays })
-  // 土日祝日だけを候補として抽出
-  const contentItems = firstRes.content.reduce((acc, curr) => {
-    const found = holidays.find((holiday) =>
-      holiday.equals(new DateValue(curr.use_date)),
-    )
-    if (!found) {
-      return acc
-    }
-    acc.push(curr)
-    return acc
-  }, [] as IContentItem[])
-
-  const ress = contentItems.map((item) => sendPostRequest(month, item.use_date))
-
-  if (ress.length === 0) {
+  const result = [...thisMonthRes, ...nextMonthRes]
+  if (result.length === 0) {
     console.log("予約可能な時間帯はありませんでした")
     return
   }
-  // 通知する
+
   const email = PropertiesService.getScriptProperties().getProperty("EMAIL")
   if (!email) return
 
-  GmailApp.sendEmail(email, "予約可能な時間帯があります", JSON.stringify(ress))
+  GmailApp.sendEmail(
+    email,
+    "予約可能な時間帯があります",
+    JSON.stringify(result),
+  )
 }
 
 // GASから参照したい変数はglobalオブジェクトに渡してあげる必要がある
-// @ts-expect-error
+// @ts-ignore
 global.main = main

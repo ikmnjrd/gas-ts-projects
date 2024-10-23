@@ -11,7 +11,7 @@ require("esbuild")
   .build({
     entryPoints: [inPath],
     bundle: true,
-    minify: false,
+    minify: true,
     outfile: outPath,
     plugins: [GasPlugin],
     tsconfig,

@@ -1,3 +1,5 @@
+import { DateValue, getHolidays } from "./date"
+
 interface IReservableFrames {
   id: number
   start_time: string // "9:00", "13:00"
@@ -7,7 +9,7 @@ interface IReservableFrames {
   usage_fee: number
 }
 
-export interface IContentItem {
+interface IContentItem {
   use_date: string
   facility_name: string | null
   room_area_id: number | null
@@ -30,7 +32,7 @@ interface IResponse {
  * use_month=あり,use_date=なし: 予約可能な時間帯があるものがcontentにある, 予約不可能なものはcontentの配列に含まれない
  * use_month=あり,use_date=あり: content.lengthは1, reservable_frames
  */
-export function sendPostRequest(useMonth: string, useDate?: string): IResponse {
+function sendPostRequest(useMonth: string, useDate?: string): IResponse {
   const url =
     "https://www.yoyaku.city.shibuya.tokyo.jp/api/reservations/facilities/room_areas/reservable_frames"
   const payload = {
@@ -76,4 +78,26 @@ export function sendPostRequest(useMonth: string, useDate?: string): IResponse {
   }
 
   throw new Error("Failed to fetch data.")
+}
+
+export function surveyAt(month: string): IResponse[] {
+  const firstRes = sendPostRequest(month)
+
+  const dateValue = new DateValue(month)
+  const holidays = getHolidays(dateValue)
+  console.log({ holidays })
+  // 土日祝日だけを候補として抽出
+  const contentItems = firstRes.content.reduce((acc, curr) => {
+    const found = holidays.find((holiday) =>
+      holiday.equals(new DateValue(curr.use_date)),
+    )
+    if (!found) {
+      return acc
+    }
+    acc.push(curr)
+    return acc
+  }, [] as IContentItem[])
+
+  // 土日祝から予約可能な時間帯を取得
+  return contentItems.map((item) => sendPostRequest(month, item.use_date))
 }
