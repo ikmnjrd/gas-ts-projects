@@ -1,5 +1,6 @@
 import dayjs from "dayjs"
 import { surveyAt } from "./fetch"
+import { createTextTable } from "./table"
 
 function main(): void {
   const thisMonth = dayjs().format("YYYY/MM")
@@ -19,7 +20,7 @@ function main(): void {
   GmailApp.sendEmail(
     email,
     "予約可能な時間帯があります",
-    JSON.stringify(result),
+    createTextTable(result),
   )
 }
 

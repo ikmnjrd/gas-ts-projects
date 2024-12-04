@@ -21,7 +21,7 @@ interface IContentItem {
   reservable_frames: IReservableFrames[] | null
 }
 
-interface IResponse {
+export interface IResponse {
   warns: unknown[]
   message: unknown[]
   errors: unknown[]
